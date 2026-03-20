@@ -1,0 +1,3 @@
+# Dependencies for SignalVault ingest server
+PyYAML>=6.0
+cryptography>=42.0

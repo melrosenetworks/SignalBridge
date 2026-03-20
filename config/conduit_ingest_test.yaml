@@ -1,0 +1,15 @@
+# Conduit config for ingest E2E test (matches ingest endpoint decryption key)
+encryption_key: "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+
+anonymisation:
+  enabled: false
+  replacement_byte: 0
+
+filter:
+  protocol_include: []
+  protocol_exclude: []
+  procedure_include: []
+  procedure_exclude: []
+  ip_allow: []
+  ip_deny: []
+  drop_encrypted_nas: false

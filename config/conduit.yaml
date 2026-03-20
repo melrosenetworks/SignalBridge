@@ -1,0 +1,56 @@
+# SignalBridge configuration
+# Anonymises, filters, and forwards S1AP/NGAP signalling
+
+# When set (hex-encoded 32-byte key), HTTP output is encrypted with AES-256-GCM.
+encryption_key: "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+
+anonymisation:
+  enabled: false
+  mcc: "999"
+  mnc: "99"
+  # imsi_map_path: ""  # Optional: write "original -> anonymised" mapping when done
+  replacement_byte: 0  # Legacy: used when mcc empty (zero-fill mode)
+
+filter:
+  # Include only these protocols (empty = all). Values: S1AP, NGAP
+  protocol_include: []
+  # Exclude these protocols
+  protocol_exclude: []
+  # Include only these procedure codes (empty = all)
+  procedure_include: []
+  # Exclude these procedure codes
+  procedure_exclude: []
+  # IP allow list (empty = allow all)
+  ip_allow: []
+  # IP deny list
+  ip_deny: []
+  # Drop encrypted NAS (cannot anonymise without keys)
+  drop_encrypted_nas: false
+
+# Example: S1AP only
+# filter:
+#   protocol_include: [S1AP]
+#   protocol_exclude: []
+#
+# Example: exclude NGAP
+# filter:
+#   protocol_exclude: [NGAP]
+#
+# Example: mobility procedures only
+# filter:
+#   procedure_include: [0, 1, 2, 3, 4]  # Handover procedures
+#   drop_encrypted_nas: true
+
+inputs:
+  - type: file
+    path: ""
+    # For TCP: type: tcp, address: "0.0.0.0:50051"
+    # For gRPC: type: grpc, address: "0.0.0.0:50052"
+
+outputs:
+  - type: "http"
+    path: "http://127.0.0.1:9876/frames/550e8400-e29b-41d4-a716-446655440000"
+    # Set to file path, or use type: https with address for HTTP streaming
+    # For HTTP streaming: type: https, address: "https://ingest.example.com/frames/{uuid}"
+    # For TCP output: type: tcp, address: "host:port"
+    # For UDP output: type: udp, address: "host:port"

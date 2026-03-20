@@ -1,0 +1,10 @@
+build/
+generated/nas_asn1c/
+_deps/
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+CTestTestfile.cmake
+__pycache__/
+*.pyc
+*.pyo

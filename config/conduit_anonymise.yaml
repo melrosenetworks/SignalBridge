@@ -1,0 +1,26 @@
+# SignalBridge configuration with anonymisation enabled
+# Used for identity comparison tests (before/after processing)
+
+anonymisation:
+  enabled: true
+  mcc: "999"
+  mnc: "99"
+  imsi_map_path: ""  # Set to path (e.g. imsi_map.txt) to write "original -> anonymised" when done
+  replacement_byte: 0
+
+filter:
+  protocol_include: []
+  protocol_exclude: []
+  procedure_include: []
+  procedure_exclude: []
+  ip_allow: []
+  ip_deny: []
+  drop_encrypted_nas: false
+
+inputs:
+  - type: file
+    path: ""
+
+outputs:
+  - type: "http"
+    path: "http://127.0.0.1:9876/frames/550e8400-e29b-41d4-a716-446655440000"

@@ -1,0 +1,23 @@
+# Ingest endpoint configuration
+# Each endpoint is identified by its UUID in the URL path: POST /frames/{uuid} or /ingest/{uuid}
+#
+# Schema per endpoint:
+#   destination: "signalvault" | (future: other destinations)
+#   decryption_key: optional hex-encoded 32-byte key for AES-256-GCM
+#     - When present: decrypt payload, decompress gzip, append NDJSON to hourly files
+#     - When absent: store encrypted payload as-is, append to hourly binary files
+#   ip_allow: optional list of allowed client IPs or CIDR ranges (e.g. ["10.0.0.0/8", "192.168.1.1"])
+#   credentials: optional HTTP Basic auth { username: "...", password: "..." }
+#   api_key: optional API key; client sends X-API-Key or Authorization: Bearer <key>
+#   mtls: optional { allowed_cns: ["cn1", "cn2"] } to restrict to client cert CNs (requires --tls-client-ca)
+
+endpoints:
+  # Example: endpoint with decryption (stores plain NDJSON)
+  550e8400-e29b-41d4-a716-446655440000:
+    destination: signalvault
+    decryption_key: "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+
+  # Example: endpoint without key (stores encrypted)
+  6ba7b810-9dad-11d1-80b4-00c04fd430c8:
+    destination: signalvault
+    # no decryption_key - data stored encrypted
